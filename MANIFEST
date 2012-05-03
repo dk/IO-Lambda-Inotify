@@ -1,0 +1,7 @@
+Makefile.PL
+MANIFEST
+lib/IO/Lambda/Inotify.pm
+Changes
+t/01-load.t
+t/02-inotify.t
+t/98-pod.t
