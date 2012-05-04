@@ -46,18 +46,41 @@ IO::Lambda::Inotify - bridge between IO::Lambda and Linux::Inotify2
 
 =head1 SYNOPSIS
 
-    use Linux::Inotify2;
-    use IO::Lambda qw(:all);
-    use IO::Lambda::Inotify;
-
-    my $inotify = Linux::Inotify2-> new;
-    $inotify-> watch( ... ); # as usual, see Linux::Inotify2 doc
-
-    # this lambda runs forever until manually stopped
-    my $server = inotify_server($inotify);
-    $server-> start;
-
-    # rest of IO-Lambda non-blocking code
+   use strict ;
+   use IO::Lambda qw(:all);
+   use Linux::Inotify2;
+   use IO::Lambda::Inotify;
+   
+   sub timer {
+       my $timeout = shift ;
+       lambda {
+           context $timeout ;
+           timeout {
+               print "RECEIVED A TIMEOUT\n" ;
+           }
+       }
+   }
+   
+   # create a new object
+   my $inotify = new Linux::Inotify2
+      or die "unable to create new inotify object: $!";
+   
+   # add watchers
+   $inotify->watch ("/tmp/xxx", IN_ACCESS, sub {
+       my $e = shift;
+       my $name = $e->fullname;
+       print "$name was accessed\n" if $e->IN_ACCESS;
+       print "$name is no longer mounted\n" if $e->IN_UNMOUNT;
+       print "$name is gone\n" if $e->IN_IGNORED;
+       print "events for $name have been lost\n" if $e->IN_Q_OVERFLOW;
+       
+       # cancel this watcher: remove no further events
+       $e->w->cancel;
+   });
+   
+   my $server = inotify_server($inotify);
+   $server->start;
+   timer(10)->wait ;
 
 =head1 DESCRIPTION
 
