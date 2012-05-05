@@ -87,7 +87,7 @@ IO::Lambda::Inotify - bridge between IO::Lambda and Linux::Inotify2
 Bridge between Linux::Inotify2 and IO::Lambda tries to be absolutely non-invasive to
 the non-blocking programming style advertized by Linux::Inotify2 . The only requirements
 for the programmer is to register $inotify objects with inotify_server and let the resulting
-lambda running forever, or stop it when the $inotify object is not needed anymore.
+lambda run forever, or stop it when the $inotify object is not needed anymore.
 
 C<inotify_server> is exported by default, as it is the only function in the module, and 
 can take more than one $inotify object in its arguments.
