@@ -6,7 +6,7 @@ use IO::Handle;
 use IO::Lambda qw(:all :dev);
 use Linux::Inotify2;
 use base qw(Exporter);
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT_OK = qw(
 	inotify
 	inotify_server
