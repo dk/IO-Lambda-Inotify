@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use IO::Lambda qw(:all);
 use Linux::Inotify2;
-use IO::Lambda::Inotify;
+use IO::Lambda::Inotify qw(inotify_server);
 use IO::Lambda::Mutex qw(:all);
 use Test::More tests => 1;
 
