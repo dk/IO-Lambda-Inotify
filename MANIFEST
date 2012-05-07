@@ -3,5 +3,7 @@ MANIFEST
 lib/IO/Lambda/Inotify.pm
 Changes
 t/01-load.t
-t/02-inotify.t
+t/02-server.t
+t/03-inotify.t
+t/04-simple.t
 t/98-pod.t
