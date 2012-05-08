@@ -187,17 +187,22 @@ Easy
       tail {
          my ( $e, $error ) = @_;
 
+         # handle error
 	 if ($error) {
             print "timed out\n" if $error eq 'timeout';
             print "error:$error\n";
             return;
 	 }
 
+         # handle the event
          my $name = $e->fullname;
          print "$name was accessed\n" if $e->IN_ACCESS;
          print "$name is no longer mounted\n" if $e->IN_UNMOUNT;
          print "$name is gone\n" if $e->IN_IGNORED;
          print "events for $name have been lost\n" if $e->IN_Q_OVERFLOW;
+
+	 # listen for more events
+	 again;
       }
    }-> wait;
 
@@ -214,17 +219,22 @@ Explicit inotify object, share with other users
       context inotify($inotify, "/tmp/xxx", IN_ACCESS, 3600);
       tail {
          my ( $e, $error ) = @_;
+         
+	 # handle error
 	 if ($error) {
             print "timed out\n" if $error eq 'timeout';
             print "error:$error\n";
             return;
 	 }
 
+         # handle the event
          my $name = $e->fullname;
          print "$name was accessed\n" if $e->IN_ACCESS;
          print "$name is no longer mounted\n" if $e->IN_UNMOUNT;
          print "$name is gone\n" if $e->IN_IGNORED;
          print "events for $name have been lost\n" if $e->IN_Q_OVERFLOW;
+	 
+	 # don't listen for more events, watcher is automatically cancelled
       }
    }-> wait;
 
