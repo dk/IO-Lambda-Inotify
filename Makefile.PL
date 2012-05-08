@@ -8,7 +8,7 @@ WriteMakefile(
 	ABSTRACT_FROM => 'lib/IO/Lambda/Inotify.pm',
 	VERSION_FROM  => 'lib/IO/Lambda/Inotify.pm',
 	PREREQ_PM     => {
+		'Linux::Inotify2'   => 1.21,
 		'IO::Lambda'        => 1.22,
-		'Linux::Inotify2'   => 1.22,
 	},
 );
