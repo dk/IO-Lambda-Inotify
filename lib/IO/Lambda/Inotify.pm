@@ -306,6 +306,12 @@ the end of the program. It is also reused for other such calls.
 Accepts one or more $inotify objects, creates a lambda that serves as a proxy for Linux::Inotify2
 event loop. Use only when programming style compatible with Linux::Inotify2 is needed.
 
+=head1 BUGS
+
+Don't convert inotify() into condition form using condition() call for events
+that restart the watcher(s) using C<again> -- some events may get lost in
+between. Single-shot events, as well as inotify() itself is safe in this regard.
+
 =head1 SEE ALSO
 
 L<IO::Lambda>, L<Linux::Inotify2>
